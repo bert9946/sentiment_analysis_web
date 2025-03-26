@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Gemini 情感分析</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			line-height: 1.6;
+		}
+
+		#sentiment-form {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		textarea {
+			resize: vertical;
+			min-height: 150px;
+			border-radius: 5px;
+			border-color: darkgrey;
+		}
+
+		#result {
+			margin-top: 20px;
+			padding: 15px;
+			background-color: #f4f4f4;
+			border-radius: 5px;
+		}
+		
+		.btn {
+			padding: 10px 20px;
+			font-size: 18px;
+			color: white;
+			background-color: #007BFF;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Gemini 情感分析工具</h1>
+
+	<form id="sentiment-form">
+		<label for="text-input">請輸入要分析的文字：</label>
+		<textarea id="text-input" required style="font-size: 20px;"></textarea>
+		<button class="btn" type="submit">分析情感</button>
+	</form>
+
+	<div id="result"></div>
+
+	<script>
+		document.getElementById('sentiment-form').addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const textInput = document.getElementById('text-input');
+			const resultDiv = document.getElementById('result');
+
+			resultDiv.innerHTML = '分析中...';
+
+			try {
+				const response = await axios.post('/analyze', {
+					text: textInput.value
+				});
+
+				resultDiv.innerHTML = `
+                    <h3>分析結果：</h3>
+                    <pre>${response.data.sentiment_analysis}</pre>
+                `;
+			} catch (error) {
+				resultDiv.innerHTML = `
+                    <p style="color: red;">
+                        發生錯誤：${error.response ? error.response.data.error : error.message}
+                    </p>
+                `;
+			}
+		});
+	</script>
+</body>
+
+</html>
