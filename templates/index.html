@@ -44,6 +44,16 @@
 			cursor: pointer;
 			transition: background-color 0.3s ease;
 		}
+
+		footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			text-align: center;
+			padding: 5px;
+			color: #555;
+		}
 	</style>
 </head>
 
@@ -57,7 +67,12 @@
 	</form>
 
 	<div id="result"></div>
-
+	<footer>
+		<div>
+			&copy; 2023 Bert Chen
+			<a href="https://github.com/bert9946/sentiment_analysis_web">GitHub</a>
+		</div>
+	</footer>
 	<script>
 		document.getElementById('sentiment-form').addEventListener('submit', async (e) => {
 			e.preventDefault();
